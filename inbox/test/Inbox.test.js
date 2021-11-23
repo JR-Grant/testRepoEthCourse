@@ -6,35 +6,25 @@ const ganache = require('ganache-cli');
 const Web3 = require('web3');
 //creates an instance of web 3 and tells it to attempt to connect to the local test network.
 const web3 = new Web3(ganache.provider());
+const { interface, bytecode } = require('../compile');
+// At each test we want to deploy a new contract
+// We then want to manipulate the contract and Make an assertion about the contract.
+let accounts;
+let inbox;
 
-//creating an arbitrary class for testing purposes
-class Car {
-  park() {
-    return 'stopped';
-  }
+beforeEach(async () => {
+  // Get a list of all accounts
+  accounts = await web3.eth.getAccounts();
 
-  drive(){
-    return 'vroom';
-  }
-}
-
-//ensures that variable is available over the whole scope.
-//let as opposed to const as the value changes throughout.
-let car;
-//testing class Car
-//running npm run test wull run the tests
-beforeEach(() => {
-  //initialises object before each it statement
-  car = new Car();
+  //use one of those accounts to deploy the coontract
+  inbox = await new web3.eth.Contract(JSON.parse(interface))
+    .deploy({ data: bytecode, arguments: ['Hi there!'] })
+    //the account from the array to be used
+    .send({ from: accounts[0], gas: '1000000' })
 });
 
-describe('Car', () => {
-  it('can park', () => {
-    //passess if both values are equal
-    assert.equal(car.park(), 'stopped');
-  });
-
-  it('can drive', () =>{
-    assert.equal(car.drive(), 'vroom');
+describe('Inbox', () => {
+  it('deploys a contract', () => {
+    console.log(inbox);
   });
 });
