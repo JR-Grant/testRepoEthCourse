@@ -7,7 +7,7 @@ const Web3 = require('web3');
 //creates an instance of web 3 and tells it to attempt to connect to the local test network.
 const web3 = new Web3(ganache.provider());
 
-//creating an arbitrary class for testing purposes
+//creating an arbitrary class for testing purposes.
 class Car {
   park() {
     return 'stopped';
