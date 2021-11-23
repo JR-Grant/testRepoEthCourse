@@ -5,4 +5,4 @@ const ganache = require('ganache-cli');
 //function to make instances of the web3 library
 const Web3 = require('web3');
 //creates an instance of web 3 and tells it to attempt to connect to the local test network.
-const web3 = new Web3(ganache.provider());  
+const web3 = new Web3(ganache.provider());
